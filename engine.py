@@ -17,7 +17,9 @@ class Player:
     def __init__(self):
         self.ships = []
         self.search = ["U" for i in range(100)]
-        self.place_ships (sizes = [5,4,3,3,2])
+        self.place_ships(sizes = [5,4,3,3,2])
+        list_of_lists = [ship.indexes for ship in self.ships]
+        self.indexes = [index for sublist in list_of_lists for index in sublist]
     
     def place_ships (self, sizes):
         for size in sizes:
@@ -47,3 +49,28 @@ class Player:
 p = Player()
 for ship in p.ships:
     print(ship.indexes)
+
+class Game:
+    def __init__ (self):
+        self.player1 = Player()
+        self.player2 = Player()
+        self.player1_turn = True
+        self.over = False
+        
+    def make_move(self, i):
+        player = self.player1 if self.player1_turn else self.player2
+        opponent = self.player2 if self.player1_turn else self.player1
+
+        if i in opponent.indexes:
+            player.search[i] = "H"
+            for ship in opponent.ships:
+                sunk = True
+                for i in ship.indexes:
+                    if player.search[i]=="U":
+                        sunk = False
+                        break
+                if sunk:
+                    for i in ship.indexes:
+                        player.search[i] == "S"
+                else:
+                    player.search[i] = "M"
