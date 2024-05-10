@@ -13,12 +13,12 @@ WIDTH = SQ_SIZE * 10 * 2 + H_MARGIN
 HEIGHT = SQ_SIZE * 10 * 2 + V_MARGIN
 SCREEN = pygame.display.set_mode((WIDTH,HEIGHT))
 INDENT = 5
-HUMAN1 = False
+HUMAN1 = True
 HUMAN2 = False
 
 WHITE = (255,255,255)
 GREY = (40,50,60)
-RED = (255,40,0)
+RED = (139,0,0)
 BLUE = (0,0,128)
 GREEN = (50,200,150)
 ORANGE = (250,140,20)
@@ -92,12 +92,15 @@ while animating:
         draw_ships(game.player2, left = (WIDTH-H_MARGIN)//2 + H_MARGIN)
 
         if not game.over and game.computer_turn:
-            game.random_ai()
+            if game.player1_turn:
+                game.basic_ai()
+            else:
+                game.basic_ai()
 
         if game.over:
             text = "Player " + str(game.result) + " wins!"
             textbox = myfont.render(text, False, GREY, WHITE)
             SCREEN.blit(textbox, (WIDTH// 2 - 240, HEIGHT // 2 - 50))
 
-        pygame.time.wait(100)
+        pygame.time.wait(0)
         pygame.display.flip()
